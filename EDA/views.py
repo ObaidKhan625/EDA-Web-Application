@@ -16,6 +16,7 @@ import os
 def save_graph(plot):
 	fig = plot.get_figure()
 	fig.savefig(r'C:\Users\OBAID\OneDrive\Desktop\EDA-Simplifier\static\images\graph.png')
+	plt.close('all')
 
 def make_graph(a, num):
 	df = pd.read_csv('EDA/Diamonds.csv')
