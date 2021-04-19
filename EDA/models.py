@@ -1,9 +1,10 @@
 from django.db import models
 import pandas as pd
+import os
 
 def accept_csv():
-	df = pd.read_csv('EDA/diamonds.csv')
-	return df
+	from .csvaccept import csv_accept
+	return csv_accept()
 
 def estimator_tuples():
 	estimator_tuple = (
@@ -55,8 +56,8 @@ def bool_choices():
 class BarPlotModel(models.Model):
 	df = accept_csv()
 	name = models.CharField(max_length=200, default="Bar Plot", primary_key=True)
-	x = models.CharField(max_length=200, null=True, choices=feature_tuples(df), default='color')
-	y = models.CharField(max_length=200, null=True, choices=feature_tuples(df), default='price')
+	x = models.CharField(max_length=200, null=True, choices=feature_tuples(df))
+	y = models.CharField(max_length=200, null=True, choices=feature_tuples(df))
 	hue = models.CharField(max_length=200, null=True, choices=feature_tuples(df), blank=True)
 	saturation = models.FloatField(default=0.75) #0 to 1 1 = dark
 	errcolor = models.CharField(max_length=200, default='0.26') #0 to 1 1 = white
@@ -73,8 +74,8 @@ class BarPlotModel(models.Model):
 class ScatterPlotModel(models.Model):
 	df = accept_csv()
 	name = models.CharField(max_length=200, default="Scatter Plot", primary_key=True)
-	x = models.CharField(max_length=200, null=True, choices=feature_tuples(df), default='color')
-	y = models.CharField(max_length=200, null=True, choices=feature_tuples(df), default='price')
+	x = models.CharField(max_length=200, null=True, choices=feature_tuples(df))
+	y = models.CharField(max_length=200, null=True, choices=feature_tuples(df))
 	hue = models.CharField(max_length=200, null=True, choices=feature_tuples(df), blank=True)
 	style = models.CharField(max_length=200, null=True, blank=True, choices=feature_tuples(df)) #Different shapes of scattered points
 	size = models.CharField(max_length=200, null=True, blank=True, choices=feature_tuples(df)) #Different sizes of scattered points
@@ -159,8 +160,8 @@ class HistogramPlotModel(models.Model):
 class BoxPlotModel(models.Model):
 	df = accept_csv()
 	name = models.CharField(max_length=200, default="Box Plot", primary_key=True)
-	x = models.CharField(max_length=200, null=True, choices=feature_tuples(df), default='cut')
-	y = models.CharField(max_length=200, null=True, choices=feature_tuples(df), default='price')
+	x = models.CharField(max_length=200, null=True, choices=feature_tuples(df))
+	y = models.CharField(max_length=200, null=True, choices=feature_tuples(df))
 	hue = models.CharField(max_length=200, null=True, choices=feature_tuples(df), blank=True)
 	saturation = models.FloatField(default=0.75)
 	palette = models.CharField(max_length=200, blank=True, null=True, choices=palette_choices())

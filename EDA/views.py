@@ -10,6 +10,7 @@ from .models import *
 from os.path import dirname, abspath
 import string, random
 import os
+from .csvaccept import csv_accept
 
 #name = '\\'+ ''.join(random.choices(string.ascii_uppercase, k=6))
 
@@ -19,7 +20,6 @@ def save_graph(plot):
 	plt.close('all')
 
 def make_graph(a, num):
-	df = pd.read_csv('EDA/Diamonds.csv')
 	li = []
 	for i in a:
 		if(a[i]==''):
@@ -114,19 +114,18 @@ def box_plot(df, li):
 	save_graph(plot)
 
 def home(request):
-	template = 'EDA/dashboard.html'
-	if request.method == 'GET':
-		return render(request, template)
-	csv_file = request.FILES['file']
-	data_set = csv_file.read().decode('UTF-8')
-	#print(data_set)
-	io_string = io.StringIO(data_set)
-	df = pd.read_csv(io_string, sep=",")
-	df.to_csv(r"C:\Users\OBAID\OneDrive\Desktop\EDA-Simplifier\EDA\file1.csv")
-	#print(io_string.read())
-	# initialize list of lists
-	# Create the pandas DataFrame
-	return render(request, template)
+	if request.method == 'POST':
+		csv_file = request.FILES['file']
+		data_set = csv_file.read().decode('UTF-8')
+		io_string = io.StringIO(data_set)
+		global df
+		print(io_string)
+		df = pd.read_csv(io_string, sep=",")
+		del df[df.columns[0]]
+		print(1, df.columns)
+		df.to_csv(r"C:\Users\OBAID\OneDrive\Desktop\EDA-Simplifier\EDA\diamonds.csv")
+		return render(request, 'EDA/dashboard.html')
+	return render(request, 'EDA/home.html')
 
 def BarPlotFormPage(request):
 	form = BarPlotForm()
