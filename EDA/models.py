@@ -1,10 +1,5 @@
 from django.db import models
-import pandas as pd
 import os
-
-def accept_csv():
-	from .csvaccept import csv_accept
-	return csv_accept()
 
 def estimator_tuples():
 	estimator_tuple = (
@@ -12,15 +7,6 @@ def estimator_tuples():
 		('median', 'median'),
 		)
 	return estimator_tuple
-
-def feature_tuples(df):
-	single_list = df.columns
-	big_list = []
-	for i in single_list:
-		if i != 'Unnamed: 0':
-			big_list.append(tuple([i, i]))
-	feature_tuple = tuple(big_list)
-	return feature_tuple
 
 def palette_choices():
 	palette_choice = (
@@ -41,7 +27,6 @@ def legend_choices():
 		('auto', 'auto'),
 		('brief', 'brief'),
 		('full', 'full'),
-		(False, False),
 		)
 	return legend_choice
 
@@ -54,11 +39,10 @@ def bool_choices():
 
 # Create your models here.
 class BarPlotModel(models.Model):
-	df = accept_csv()
 	name = models.CharField(max_length=200, default="Bar Plot", primary_key=True)
-	x = models.CharField(max_length=200, null=True, choices=feature_tuples(df))
-	y = models.CharField(max_length=200, null=True, choices=feature_tuples(df))
-	hue = models.CharField(max_length=200, null=True, choices=feature_tuples(df), blank=True)
+	x = models.CharField(max_length=200, null=True) #f
+	y = models.CharField(max_length=200, null=True) #f
+	hue = models.CharField(max_length=200, null=True, blank=True) #f
 	saturation = models.FloatField(default=0.75) #0 to 1 1 = dark
 	errcolor = models.CharField(max_length=200, default='0.26') #0 to 1 1 = white
 	errwidth = models.FloatField(max_length=200, default=3) # 1-3 recomm
@@ -72,13 +56,12 @@ class BarPlotModel(models.Model):
 		return self.name
 
 class ScatterPlotModel(models.Model):
-	df = accept_csv()
 	name = models.CharField(max_length=200, default="Scatter Plot", primary_key=True)
-	x = models.CharField(max_length=200, null=True, choices=feature_tuples(df))
-	y = models.CharField(max_length=200, null=True, choices=feature_tuples(df))
-	hue = models.CharField(max_length=200, null=True, choices=feature_tuples(df), blank=True)
-	style = models.CharField(max_length=200, null=True, blank=True, choices=feature_tuples(df)) #Different shapes of scattered points
-	size = models.CharField(max_length=200, null=True, blank=True, choices=feature_tuples(df)) #Different sizes of scattered points
+	x = models.CharField(max_length=200, null=True) #f
+	y = models.CharField(max_length=200, null=True) #f
+	hue = models.CharField(max_length=200, null=True, blank=True) #f
+	style = models.CharField(max_length=200, null=True, blank=True) #f Different shapes of scattered points
+	size = models.CharField(max_length=200, null=True, blank=True) #f Different sizes of scattered points
 	palette = models.CharField(max_length=200, blank=True, null=True, choices=palette_choices())
 	legend = models.CharField(max_length=200, default='auto', choices=legend_choices())
 	n_boot = models.IntegerField(default=1000) # number of iter to cal conf int
@@ -88,17 +71,16 @@ class ScatterPlotModel(models.Model):
 		return 'Scatter Plot'
 
 class LinePlotModel(models.Model):
-	df = accept_csv()
 	err_style_choices = (
 		('band', 'band'),
 		('bar', 'bar'),
 		)
 	name = models.CharField(max_length=200, default="Line Plot", primary_key=True)
-	x = models.CharField(max_length=200, null=True, choices=feature_tuples(df))
-	y = models.CharField(max_length=200, null=True, choices=feature_tuples(df))
-	hue = models.CharField(max_length=200, null=True, choices=feature_tuples(df), blank=True)
-	style = models.CharField(max_length=200, null=True, choices=feature_tuples(df), blank=True) #Different shapes of scattered points
-	size = models.CharField(max_length=200, null=True, choices=feature_tuples(df), blank=True) #Different sizes of scattered points
+	x = models.CharField(max_length=200, null=True) #f
+	y = models.CharField(max_length=200, null=True) #f
+	hue = models.CharField(max_length=200, null=True, blank=True) #f
+	style = models.CharField(max_length=200, null=True, blank=True) #f Different shapes of scattered points
+	size = models.CharField(max_length=200, null=True, blank=True) #f Different sizes of scattered points
 	n_boot = models.IntegerField(default=1000) # number of iter to cal conf int
 	ci = models.IntegerField(default=95)
 	sort = models.CharField(max_length=200, default='False', choices=bool_choices()) # Sort Values, default is False
@@ -110,10 +92,9 @@ class LinePlotModel(models.Model):
 		return 'Line Plot'
 	
 class CountPlotModel(models.Model):
-	df = accept_csv()
 	name = models.CharField(max_length=200, default="Count Plot", primary_key=True)
-	x = models.CharField(max_length=200, null=True, choices=feature_tuples(df))
-	hue = models.CharField(max_length=200, null=True, choices=feature_tuples(df), blank=True)
+	x = models.CharField(max_length=200, null=True) #f
+	hue = models.CharField(max_length=200, null=True, blank=True) #f
 	saturation = models.FloatField(default=0.75) #0 to 1 1 = dark
 	palette = models.CharField(max_length=200, blank=True, null=True, choices=palette_choices())
 	dodge = models.CharField(max_length = 200, choices=bool_choices(), default=True)
@@ -122,7 +103,6 @@ class CountPlotModel(models.Model):
 		return 'Count Plot'
 
 class HistogramPlotModel(models.Model):
-	df = accept_csv()
 	stat_choices = (
 		('count', 'count'),
 		('frequency', 'frequency'),
@@ -141,8 +121,8 @@ class HistogramPlotModel(models.Model):
 		('poly', 'poly'),
 		)
 	name = models.CharField(max_length=200, default="Histogram", primary_key=True)
-	x = models.CharField(max_length=200, null=True, choices=feature_tuples(df))
-	hue = models.CharField(max_length=200, null=True, choices=feature_tuples(df), blank=True)
+	x = models.CharField(max_length=200, null=True) #f
+	hue = models.CharField(max_length=200, null=True, blank=True) #f
 	stat = models.CharField(max_length=200, null=True, choices=stat_choices, default='count')
 	bins = models.CharField(max_length=200, default='auto')
 	binwidth = models.IntegerField(blank=True, null=True)
@@ -153,16 +133,16 @@ class HistogramPlotModel(models.Model):
 	kde = models.CharField(max_length=200, default=False, choices=bool_choices())
 	multiple = models.CharField(max_length=200, null=True, choices=multiple_choices, default='layer')
 	element = models.CharField(max_length=200, null=True, choices=element_choices, default='bars')
+	log_scale = models.CharField(max_length=200, default=False, choices=bool_choices())
 	
 	def __str__(self):
 		return 'Histogram Plot'
 
 class BoxPlotModel(models.Model):
-	df = accept_csv()
 	name = models.CharField(max_length=200, default="Box Plot", primary_key=True)
-	x = models.CharField(max_length=200, null=True, choices=feature_tuples(df))
-	y = models.CharField(max_length=200, null=True, choices=feature_tuples(df))
-	hue = models.CharField(max_length=200, null=True, choices=feature_tuples(df), blank=True)
+	x = models.CharField(max_length=200, null=True) #f
+	y = models.CharField(max_length=200, null=True) #f
+	hue = models.CharField(max_length=200, null=True, blank=True) #f
 	saturation = models.FloatField(default=0.75)
 	palette = models.CharField(max_length=200, blank=True, null=True, choices=palette_choices())
 	width = models.FloatField(default=0.8)

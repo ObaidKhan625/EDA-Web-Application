@@ -10,13 +10,15 @@ from .models import *
 from os.path import dirname, abspath
 import string, random
 import os
-from .csvaccept import csv_accept
 
 #name = '\\'+ ''.join(random.choices(string.ascii_uppercase, k=6))
 
+df = pd.read_csv(r'C:\Users\OBAID\OneDrive\Desktop\EDA-Web-Application\EDA\file.csv')
+
 def save_graph(plot):
+	#os.remove(r'C:\Users\OBAID\OneDrive\Desktop\EDA-Web-Application\EDA\file.csv')
 	fig = plot.get_figure()
-	fig.savefig(r'C:\Users\OBAID\OneDrive\Desktop\EDA-Simplifier\static\images\graph.png')
+	fig.savefig(r'C:\Users\OBAID\OneDrive\Desktop\EDA-Web-Application\static\images\graph.png')
 	plt.close('all')
 
 def make_graph(a, num):
@@ -96,9 +98,13 @@ def hist_plot(df, li):
 		li[11] = True
 	else:
 		li[11] = False
+	if(li[14]=='True'):
+		li[14] = True
+	else:
+		li[14] = False
 	plot = sns.histplot(x=li[2], hue=li[3], stat=li[4], bins=li[5],binwidth=li[6], 
 		discrete=li[7], palette=li[8], legend=li[9], fill=li[10], kde=li[11], multiple=li[12], 
-		element=li[13], data=df)
+		element=li[13], log_scale=li[14], data=df)
 	save_graph(plot)
 
 def box_plot(df, li):
@@ -119,11 +125,11 @@ def home(request):
 		data_set = csv_file.read().decode('UTF-8')
 		io_string = io.StringIO(data_set)
 		global df
-		print(io_string)
+		#print(io_string)
 		df = pd.read_csv(io_string, sep=",")
 		del df[df.columns[0]]
 		print(1, df.columns)
-		df.to_csv(r"C:\Users\OBAID\OneDrive\Desktop\EDA-Simplifier\EDA\diamonds.csv")
+		df.to_csv(r"C:\Users\OBAID\OneDrive\Desktop\EDA-Web-Application\EDA\file.csv")
 		return render(request, 'EDA/dashboard.html')
 	return render(request, 'EDA/home.html')
 
@@ -207,7 +213,7 @@ def BoxPlotFormPage(request):
 
 def deletePlot(request):
 	#d = dirname(dirname(abspath(__file__)))
-	os.remove(r'C:\Users\OBAID\OneDrive\Desktop\EDA-Simplifier\static\images\graph.png')
+	os.remove(r'C:\Users\OBAID\OneDrive\Desktop\EDA-Web-Application\static\images\graph.png')
 	return redirect('/')
 
 def deleteGraph(graph_type):
