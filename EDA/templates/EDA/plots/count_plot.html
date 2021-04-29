@@ -4,6 +4,8 @@
 
 {% block content %}
 
+<br>
+<br>
 <div class="row">
 	<div class="col">
 		<div class="col-md">
@@ -22,5 +24,13 @@
 		</div>
 	</div>
 </div>
+<h3 style="margin: 30px 0px 15px;">Code : </h3>
+<div class="row" style="background-color: #F8F8FF; margin: 30px 30px 30px 30px; padding: 10px; outline-color: black;
+outline-width: 5px; outline-style: solid; padding-bottom: 30px; padding-top: 30px;">
+	sns.countplot(x={{b.x}}, hue={{b.hue}}, saturation={{b.saturation}}, palette={{b.palette}}, dodge={{b.dodge}})
+</div>
+<a class="btn btn-warning" style="padding:10px" href="{% url 'delete_plot' %}">
+	Return to Plotting Page.
+</a>
 
 {% endblock %}
