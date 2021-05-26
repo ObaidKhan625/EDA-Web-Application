@@ -11,13 +11,10 @@ from os.path import dirname, abspath
 import string, random
 import os
 from .Plot_features import *
-
-#name = '\\'+ ''.join(random.choices(string.ascii_uppercase, k=6))
-
+from .decorators import *
 name = 'abc'
 
 def save_graph(plot):
-	#os.remove(r'C:\Users\OBAID\OneDrive\Desktop\EDA-Web-Application\EDA\file.csv')
 	fig = plot.get_figure()
 	fig.savefig(r'C:\Users\OBAID\OneDrive\Desktop\EDA-Web-Application\static\images\graph.png')
 	plt.close('all')
@@ -137,19 +134,21 @@ def box_plot(df, li):
 	save_graph(plot)
 	return li
 
+@checkCSV
 def home(request):
 	global df
-	if(os.path.exists(r"C:\Users\OBAID\OneDrive\Desktop\EDA-Web-Application\EDA\file.csv") == False):
-		return render(request, 'EDA/errors/file_not_found.html')
 	if request.method == 'POST':
-		csv_file = request.FILES['file']
-		if(csv_file.name[-4:] != '.csv'):
+		try:
+			csv_file = request.FILES['file']
+			if(csv_file.name[-4:] != '.csv'):
+				return render(request, 'EDA/errors/file_not_found.html')
+			data_set = csv_file.read().decode('UTF-8')
+			io_string = io.StringIO(data_set)
+			df = pd.read_csv(io_string, sep=",")
+			del df[df.columns[0]]
+			df.to_csv(r"C:\Users\OBAID\OneDrive\Desktop\EDA-Web-Application\EDA\file.csv")
+		except:
 			return render(request, 'EDA/errors/file_not_found.html')
-		data_set = csv_file.read().decode('UTF-8')
-		io_string = io.StringIO(data_set)
-		df = pd.read_csv(io_string, sep=",")
-		del df[df.columns[0]]
-		df.to_csv(r"C:\Users\OBAID\OneDrive\Desktop\EDA-Web-Application\EDA\file.csv")
 		return render(request, 'EDA/dashboard.html')
 	return render(request, 'EDA/home.html')
 
@@ -159,12 +158,14 @@ def BarPlotFormPage(request):
 		form = BarPlotForm(request.POST)
 		if form.is_valid():
 			form.save()
-			li = make_graph(request.POST, 1)
-			deleteGraph('Bar Plot')
-			b = BarPlotParameters(li)
-			context = {'b':b}
-			return render(request, 'EDA/plots/bar_plot.html', context)
-
+			try:
+				li = make_graph(request.POST, 1)
+				deleteGraph('Bar Plot')
+				b = BarPlotParameters(li)
+				context = {'b':b}
+				return render(request, 'EDA/plots/bar_plot.html', context)
+			except:
+				return render(request, 'EDA/errors/plot_error.html')
 	context = {'form':form}
 	return render(request, 'EDA/forms/bar_plot_form.html', context)
 
@@ -173,13 +174,15 @@ def ScatterPlotFormPage(request):
 	if request.method == 'POST':
 		form = ScatterPlotForm(request.POST)
 		if form.is_valid():
-			form.save()
-			li = make_graph(request.POST, 2)
-			deleteGraph('Scatter Plot')
-			b = ScatterPlotParameters(li)
-			context = {'b':b}
-			return render(request, 'EDA/plots/scatter_plot.html', context)
-
+			try:
+				form.save()
+				li = make_graph(request.POST, 2)
+				deleteGraph('Scatter Plot')
+				b = ScatterPlotParameters(li)
+				context = {'b':b}
+				return render(request, 'EDA/plots/scatter_plot.html', context)
+			except:
+				return render(request, 'EDA/errors/plot_error.html')
 	context = {'form':form}
 	return render(request, 'EDA/forms/scatter_plot_form.html', context)
 
@@ -188,13 +191,15 @@ def LinePlotFormPage(request):
 	if request.method == 'POST':
 		form = LinePlotForm(request.POST)
 		if form.is_valid():
-			form.save()
-			li = make_graph(request.POST, 3)
-			deleteGraph('Line Plot')
-			b = LinePlotParameters(li)
-			context = {'b':b}
-			return render(request, 'EDA/plots/line_plot.html', context)
-
+			try:
+				form.save()
+				li = make_graph(request.POST, 3)
+				deleteGraph('Line Plot')
+				b = LinePlotParameters(li)
+				context = {'b':b}
+				return render(request, 'EDA/plots/line_plot.html', context)
+			except:
+				return render(request, 'EDA/errors/plot_error.html')
 	context = {'form':form}
 	return render(request, 'EDA/forms/line_plot_form.html', context)
 
@@ -203,13 +208,15 @@ def CountPlotFormPage(request):
 	if request.method == 'POST':
 		form = CountPlotForm(request.POST)
 		if form.is_valid():
-			form.save()
-			li = make_graph(request.POST, 4)
-			deleteGraph('Count Plot')
-			b = CountPlotParameters(li)
-			context = {'b':b}
-			return render(request, 'EDA/plots/count_plot.html', context)
-
+			try:
+				form.save()
+				li = make_graph(request.POST, 4)
+				deleteGraph('Count Plot')
+				b = CountPlotParameters(li)
+				context = {'b':b}
+				return render(request, 'EDA/plots/count_plot.html', context)
+			except:
+				return render(request, 'EDA/errors/plot_error.html')
 	context = {'form':form}
 	return render(request, 'EDA/forms/count_plot_form.html', context)
 
@@ -218,13 +225,15 @@ def HistogramPlotFormPage(request):
 	if request.method == 'POST':
 		form = HistogramPlotForm(request.POST)
 		if form.is_valid():
-			form.save()
-			li = make_graph(request.POST, 5)
-			deleteGraph('Histogram')
-			b = HistogramPlotParameters(li)
-			context = {'b':b}
-			return render(request, 'EDA/plots/histogram_plot.html', context)
-
+			try:
+				form.save()
+				li = make_graph(request.POST, 5)
+				deleteGraph('Histogram')
+				b = HistogramPlotParameters(li)
+				context = {'b':b}
+				return render(request, 'EDA/plots/histogram_plot.html', context)
+			except:
+				return render(request, 'EDA/errors/plot_error.html')
 	context = {'form':form}
 	return render(request, 'EDA/forms/histogram_plot_form.html', context)
 
@@ -233,13 +242,15 @@ def BoxPlotFormPage(request):
 	if request.method == 'POST':
 		form = BoxPlotForm(request.POST)
 		if form.is_valid():
-			form.save()
-			li = make_graph(request.POST, 6)
-			deleteGraph('Box Plot')
-			b = BoxPlotParameters(li)
-			context = {'b':b}
-			return render(request, 'EDA/plots/box_plot.html', context)
-
+			try:
+				form.save()
+				li = make_graph(request.POST, 6)
+				deleteGraph('Box Plot')
+				b = BoxPlotParameters(li)
+				context = {'b':b}
+				return render(request, 'EDA/plots/box_plot.html', context)
+			except:
+				return render(request, 'EDA/errors/plot_error.html')
 	context = {'form':form}
 	return render(request, 'EDA/forms/box_plot_form.html', context)
 
