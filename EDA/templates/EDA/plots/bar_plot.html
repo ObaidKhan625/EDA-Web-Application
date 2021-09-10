@@ -1,0 +1,37 @@
+{% extends 'EDA/main.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<br>
+<br>
+<div class="row">
+	<div class="col">
+		<div class="col-md">
+			<div class="card card-body">
+				<div class="card text-center text-white  mb-3" id="total-orders">
+					<div class="card-header">
+						<h5 class="card-title">Desired Plot : </h5>
+					</div>
+					<div class="card-body">
+						<h3 class="card-title">
+							<img src="{% static 'images/graph.png' %}">
+						</h3>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<h3 style="margin: 30px 0px 15px;">Code : </h3>
+<div class="row" style="background-color: #F8F8FF; margin: 30px 30px 30px 30px; padding: 10px; outline-color: black;
+outline-width: 5px; outline-style: solid; padding-bottom: 30px; padding-top: 30px;">
+	sns.barplot(x={{b.x}}, y={{b.y}}, hue={{b.hue}}, saturation={{b.saturation}}, errcolor={{b.errcolor}}, 
+		errwidth={{b.errwidth}}, capsize={{b.capsize}}, n_boot={{b.boot}}, palette={{b.palette}}, ci={{b.ci}})
+</div>
+<a class="btn btn-warning" style="padding:10px" href="{% url 'delete_plot' %}">
+	Return to Plotting Page.
+</a>
+
+{% endblock %}

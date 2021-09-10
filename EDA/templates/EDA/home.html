@@ -1,0 +1,26 @@
+{% extends 'EDA/main.html' %}
+
+{% block content %}
+<div class="Diff-Color">
+	<div class="row">
+		<div class="col">
+			<div class="col-md">
+				<div class="card text-center text-white mb-3" id="total-orders" 
+				style= "margin: 50px 50px 50px; height: 300px">
+					<div class="card-header">
+						<div class="card-title"><h3>Enter the required CSV : </h3></div>
+					</div>
+					<div class="card-body" style="padding-top: 90px;">
+						<form action="" method="POST" enctype="multipart/form-data">
+							{% csrf_token %}
+							<input type="file" id="file1" name="file">
+							<button class = "button" type="submit">Upload</button>
+					    </form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

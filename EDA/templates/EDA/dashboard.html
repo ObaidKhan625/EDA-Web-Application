@@ -1,0 +1,15 @@
+{% extends 'EDA/main.html' %}
+
+{% block content %}
+<br>
+{% include 'EDA/nav_and_status/status1.html' %}
+{% include 'EDA/nav_and_status/status2.html' %}
+{% endblock %}
+
+<!--<form action="" method="POST" enctype="multipart/form-data">
+		        {% csrf_token %}
+		        <label for="file1"> Upload a file</label>
+		        <input type="file" id="file1" name="file">
+		        <small>Only accepts CSV files</small>
+		        <button type="submit">Upload</button>
+</form>
