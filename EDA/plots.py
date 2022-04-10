@@ -1,98 +1,91 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-def save_graph(plot, name):
+def save_graph(plot, plot_image_name):
 	fig = plot.get_figure()
-	fig.savefig(r'.\static\images\graph.png')
+	image_path = ".\static\images\\" + str(plot_image_name) + ".png"
+	fig.savefig(image_path)
 	plt.close('all')
 
-def bar_plot(df, li):
-	global name
-	name = li[1]
-	li[5] = max(min(1, float(li[5])), 0)
-	li[7] = max(min(3, float(li[7])), 1)
-	li[8] = max(min(0.4, float(li[8])), 0)
-	li[11] = max(min(99, int(li[11])), 1)
-	plot = sns.barplot(x=str(li[2]), y=str(li[3]), hue=li[4], saturation=li[5], errcolor=li[6], 
-		errwidth=li[7], capsize=li[8], n_boot=li[9], palette=li[10], ci=li[11], 
+def bar_plot(df, li, plot_image_name):
+	li[4] = max(min(1, float(li[4])), 0)
+	li[6] = max(min(3, float(li[6])), 1)
+	li[7] = max(min(0.4, float(li[7])), 0)
+	li[10] = max(min(99, int(li[10])), 1)
+	plot = sns.barplot(x=str(li[1]), y=str(li[2]), hue=li[3], saturation=li[4], errcolor=li[5], 
+		errwidth=li[6], capsize=li[7], n_boot=li[8], palette=li[9], ci=li[10], 
 		data=df)
-	print(name)
-	save_graph(plot, 'Bar Plot')
+	save_graph(plot, plot_image_name)
 	return li
 
-def scatter_plot(df, li):
-	global name
-	name = li[1]
-	li[10] = min(99, max(1, int(li[10])))
-	plot = sns.scatterplot(x=li[2], y=li[3], hue=li[4], style=li[5], size=li[6], 
-		palette=li[7], legend=li[8], n_boot=li[9], ci=li[10], data=df)
-	save_graph(plot, 'Scatter Plot')
+def scatter_plot(df, li, plot_image_name):
+	li[9] = min(99, max(1, int(li[9])))
+	plot = sns.scatterplot(x=li[1], y=li[2], hue=li[3], style=li[4], size=li[5], 
+		palette=li[6], legend=li[7], n_boot=li[8], ci=li[9], data=df)
+	save_graph(plot, plot_image_name)
 	return li
 
-def line_plot(df, li):
-	global name
-	name = li[1]
-	li[8] = min(99, max(1, int(li[8])))
-	if(li[9] == 'False'):
-		li[9] = bool(li[9])
-		li[9] = False
+def line_plot(df, li, plot_image_name):
+	li[7] = min(99, max(1, int(li[7])))
+	if(li[8] == 'False'):
+		li[8] = bool(li[8])
+		li[8] = False
 	else:
-		li[9] = bool(li[9])
-		li[9] = True
-	plot = sns.lineplot(x=li[2], y=li[3], hue=li[4], style=li[5], size=li[6],
-		n_boot=li[7], ci=li[8], sort=li[9], err_style=li[10], legend=li[11], palette=li[12],
+		li[8] = bool(li[8])
+		li[8] = True
+	plot = sns.lineplot(x=li[1], y=li[2], hue=li[3], style=li[4], size=li[5],
+		n_boot=li[6], ci=li[7], sort=li[8], err_style=li[9], legend=li[10], palette=li[11],
 		data=df)
-	save_graph(plot, 'Line Plot')
+	save_graph(plot, plot_image_name)
 	return li
 
-def count_plot(df, li):
-	global name
-	name = li[1]
-	li[4] = min(1, max(0, float(li[4])))
-	plot = sns.countplot(x=li[2], hue=li[3], saturation=li[4], palette=li[5], dodge=li[6],
+def count_plot(df, li, plot_image_name):
+	print(li)
+	li[3] = min(1, max(0, float(li[3])))
+	if(li[5]=='True'):
+		li[5] = True
+	else:
+		li[5] = False
+	plot = sns.countplot(x=li[1], hue=li[2], saturation=li[3], palette=li[4], dodge=li[5],
 		data=df)
-	save_graph(plot, 'Count Plot')
+	save_graph(plot, plot_image_name)
 	return li
 
-def hist_plot(df, li):
+def hist_plot(df, li, plot_image_name):
 	#Discrete should be true if element is not auto
-	global name
-	name = li[1]
-	if(li[5] != 'auto'):
-		li[5] = int(li[5])
-	if(li[7]=='True'):
-		li[7] = True
+	if(li[4] != 'auto'):
+		li[4] = int(li[4])
+	if(li[6]=='True'):
+		li[6] = True
 	else:
-		li[7] = False
+		li[6] = False
+	if(li[9]=='True'):
+		li[9] = True
+	else:
+		li[9] = False
 	if(li[10]=='True'):
 		li[10] = True
 	else:
 		li[10] = False
-	if(li[11]=='True'):
-		li[11] = True
+	if(li[13]=='True'):
+		li[13] = True
 	else:
-		li[11] = False
-	if(li[14]=='True'):
-		li[14] = True
-	else:
-		li[14] = False
-	plot = sns.histplot(x=li[2], hue=li[3], stat=li[4], bins=li[5],binwidth=li[6],
-		discrete=li[7], palette=li[8], legend=li[9], fill=li[10], kde=li[11], multiple=li[12], 
-		element=li[13], log_scale=li[14], data=df)
-	save_graph(plot, 'Histogram')
+		li[13] = False
+	plot = sns.histplot(x=li[1], hue=li[2], stat=li[3], bins=li[4],binwidth=li[5],
+		discrete=li[6], palette=li[7], legend=li[8], fill=li[9], kde=li[10], multiple=li[11], 
+		element=li[12], log_scale=li[13], data=df)
+	save_graph(plot, plot_image_name)
 	return li
 
-def box_plot(df, li):
-	global name
-	name = li[1]
-	if(li[8]=='True'):
-		li[8] = True
+def box_plot(df, li, plot_image_name):
+	if(li[7]=='True'):
+		li[7] = True
 	else:
-		li[8] = False
-	li[5] = min(1, max(0, float(li[5])))
-	li[7] = float(li[7])
-	li[9] = float(li[9])
-	plot = sns.boxplot(x=li[2], y=li[3], hue=li[4], saturation=li[5], palette=li[6], width=li[7],
-		dodge=li[8], fliersize=li[9], linewidth=li[10], data=df)
-	save_graph(plot, 'Box Plot')
+		li[7] = False
+	li[4] = min(1, max(0, float(li[4])))
+	li[6] = float(li[6])
+	li[8] = float(li[8])
+	plot = sns.boxplot(x=li[1], y=li[2], hue=li[3], saturation=li[4], palette=li[5], width=li[6],
+		dodge=li[7], fliersize=li[8], linewidth=li[9], data=df)
+	save_graph(plot, plot_image_name)
 	return li

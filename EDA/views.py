@@ -3,14 +3,16 @@ from .forms import *
 from .graph_making import *
 from .models import *
 from .Plot_features import *
-import csv, io
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-import pandas as pd
-import matplotlib.pyplot as plt
 from os.path import dirname, abspath
+import csv
+import io
+import matplotlib.pyplot as plt
 import os
+import pandas as pd
 import seaborn as sns
+import uuid
 # Create your views here.
 
 @checkCSV
@@ -22,12 +24,13 @@ def BarPlotFormPage(request):
 	if request.method == 'POST':
 		form = BarPlotForm(request.POST)
 		if form.is_valid():
-			form.save()
 			try:
-				li = make_graph(request.POST, 1)
+				form.save()
+				plot_image_name = uuid.uuid4()
+				li = make_graph(request.POST, 1, plot_image_name)
 				deleteGraph('Bar Plot')
-				b = BarPlotParameters(li)
-				context = {'b':b}
+				graph = BarPlotParameters(li)
+				context = {'graph': graph, 'plot_image_name': str(plot_image_name)+'.png'}
 				return render(request, 'EDA/plots/bar_plot.html', context)
 			except:
 				return render(request, 'EDA/errors/plot_error.html')
@@ -41,10 +44,11 @@ def ScatterPlotFormPage(request):
 		if form.is_valid():
 			try:
 				form.save()
-				li = make_graph(request.POST, 2)
+				plot_image_name = uuid.uuid4()
+				li = make_graph(request.POST, 2, plot_image_name)
 				deleteGraph('Scatter Plot')
-				b = ScatterPlotParameters(li)
-				context = {'b':b}
+				graph = ScatterPlotParameters(li)
+				context = {'graph': graph, 'plot_image_name': str(plot_image_name)+'.png'}
 				return render(request, 'EDA/plots/scatter_plot.html', context)
 			except:
 				return render(request, 'EDA/errors/plot_error.html')
@@ -56,12 +60,13 @@ def LinePlotFormPage(request):
 	if request.method == 'POST':
 		form = LinePlotForm(request.POST)
 		if form.is_valid():
-			form.save()
 			try:
-				li = make_graph(request.POST, 3)
+				form.save()
+				plot_image_name = uuid.uuid4()
+				li = make_graph(request.POST, 3, plot_image_name)
 				deleteGraph('Line Plot')
-				b = LinePlotParameters(li)
-				context = {'b':b}
+				graph = LinePlotParameters(li)
+				context = {'graph': graph, 'plot_image_name': str(plot_image_name)+'.png'}
 				return render(request, 'EDA/plots/line_plot.html', context)
 			except:
 				return render(request, 'EDA/errors/plot_error.html')
@@ -75,10 +80,11 @@ def CountPlotFormPage(request):
 		if form.is_valid():
 			try:
 				form.save()
-				li = make_graph(request.POST, 4)
+				plot_image_name = uuid.uuid4()
+				li = make_graph(request.POST, 4, plot_image_name)
 				deleteGraph('Count Plot')
-				b = CountPlotParameters(li)
-				context = {'b':b}
+				graph = CountPlotParameters(li)
+				context = {'graph': graph, 'plot_image_name': str(plot_image_name)+'.png'}
 				return render(request, 'EDA/plots/count_plot.html', context)
 			except:
 				return render(request, 'EDA/errors/plot_error.html')
@@ -90,15 +96,16 @@ def HistogramPlotFormPage(request):
 	if request.method == 'POST':
 		form = HistogramPlotForm(request.POST)
 		if form.is_valid():
-			try:
-				form.save()
-				li = make_graph(request.POST, 5)
-				deleteGraph('Histogram')
-				b = HistogramPlotParameters(li)
-				context = {'b':b}
-				return render(request, 'EDA/plots/histogram_plot.html', context)
-			except:
-				return render(request, 'EDA/errors/plot_error.html')
+			# try:
+			form.save()
+			plot_image_name = uuid.uuid4()
+			li = make_graph(request.POST, 5, plot_image_name)
+			deleteGraph('Histogram')
+			graph = HistogramPlotParameters(li)
+			context = {'graph': graph, 'plot_image_name': str(plot_image_name)+'.png'}
+			return render(request, 'EDA/plots/histogram_plot.html', context)
+			# except:
+			# 	return render(request, 'EDA/errors/plot_error.html')
 	context = {'form':form}
 	return render(request, 'EDA/forms/histogram_plot_form.html', context)
 
@@ -107,21 +114,24 @@ def BoxPlotFormPage(request):
 	if request.method == 'POST':
 		form = BoxPlotForm(request.POST)
 		if form.is_valid():
-			try:
-				form.save()
-				li = make_graph(request.POST, 6)
-				deleteGraph('Box Plot')
-				b = BoxPlotParameters(li)
-				context = {'b':b}
-				return render(request, 'EDA/plots/box_plot.html', context)
-			except:
-				return render(request, 'EDA/errors/plot_error.html')
+			# try:
+			form.save()
+			plot_image_name = uuid.uuid4()
+			li = make_graph(request.POST, 6, plot_image_name)
+			deleteGraph('Box Plot')
+			graph = BoxPlotParameters(li)
+			context = {'graph': graph, 'plot_image_name': str(plot_image_name)+'.png'}
+			return render(request, 'EDA/plots/box_plot.html', context)
+			# except:
+			# 	return render(request, 'EDA/errors/plot_error.html')
 	context = {'form':form}
 	return render(request, 'EDA/forms/box_plot_form.html', context)
 
-def deletePlot(request):
-	os.remove(r'.\static\images\graph.png')
+# Helper functions
+def deletePlot(request, plot_image_name):
+	image_path = ".\static\images\\" + plot_image_name
+	os.remove(image_path)
 	return redirect('/')
 
-def plotPage(request):
-	return render(request, 'EDA/plotpage.html')
+# def plotPage(request):
+# 	return render(request, 'EDA/plotpage.html')

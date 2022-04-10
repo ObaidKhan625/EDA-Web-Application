@@ -16,7 +16,7 @@
 					</div>
 					<div class="card-body">
 						<h3 class="card-title">
-							<img src="{% static 'images/graph.png' %}">
+							<img src="{% static 'images/' %}{{plot_image_name}}">
 						</h3>
 					</div>
 				</div>
@@ -27,9 +27,9 @@
 <h3 style="margin: 30px 0px 15px;">Code : </h3>
 <div class="row" style="background-color: #F8F8FF; margin: 30px 30px 30px 30px; padding: 10px; outline-color: black;
 outline-width: 5px; outline-style: solid; padding-bottom: 30px; padding-top: 30px;">
-	sns.countplot(x={{b.x}}, hue={{b.hue}}, saturation={{b.saturation}}, palette={{b.palette}}, dodge={{b.dodge}})
+	sns.countplot(x={{graph.x}}, hue={{graph.hue}}, saturation={{graph.saturation}}, palette={{graph.palette}}, dodge={{graph.dodge}})
 </div>
-<a class="btn btn-warning" style="padding:10px" href="{% url 'delete_plot' %}">
+<a class="btn btn-warning" style="padding:10px" href="{% url 'delete_plot' plot_image_name %}">
 	Return to Plotting Page.
 </a>
 

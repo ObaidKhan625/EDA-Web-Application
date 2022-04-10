@@ -1,5 +1,6 @@
 from django.db import models
 import os
+import uuid
 import pandas as pd
 
 df = None
@@ -59,7 +60,7 @@ def bool_choices():
 
 # Create your models here.
 class BarPlotModel(models.Model):
-	name = models.CharField(max_length=200, default="Bar Plot", primary_key=True)
+	plot_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 	x = models.CharField(max_length=200, null=True, choices=feature_tuples()) #f
 	y = models.CharField(max_length=200, null=True, choices=feature_tuples()) #f
 	hue = models.CharField(max_length=200, null=True, blank=True, choices=feature_tuples()) #f
@@ -72,10 +73,10 @@ class BarPlotModel(models.Model):
 	ci = models.IntegerField(default=95)
 	
 	def __str__(self):
-		return self.name
+		return 'Bar Plot ' + str(self.plot_id)
 
 class ScatterPlotModel(models.Model):
-	name = models.CharField(max_length=200, default="Scatter Plot", primary_key=True)
+	plot_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 	x = models.CharField(max_length=200, null=True, choices=feature_tuples()) #f
 	y = models.CharField(max_length=200, null=True, choices=feature_tuples()) #f
 	hue = models.CharField(max_length=200, null=True, blank=True, choices=feature_tuples()) #f
@@ -87,14 +88,14 @@ class ScatterPlotModel(models.Model):
 	ci = models.IntegerField(default=95)
 	
 	def __str__(self):
-		return 'Scatter Plot'
+		return 'Scatter Plot ' + str(self.plot_id)
 
 class LinePlotModel(models.Model):
 	err_style_choices = (
 		('band', 'band'),
 		('bar', 'bar'),
 		)
-	name = models.CharField(max_length=200, default="Line Plot", primary_key=True)
+	plot_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 	x = models.CharField(max_length=200, null=True, choices=feature_tuples()) #f
 	y = models.CharField(max_length=200, null=True, choices=feature_tuples()) #f
 	hue = models.CharField(max_length=200, null=True, blank=True, choices=feature_tuples()) #f
@@ -108,10 +109,10 @@ class LinePlotModel(models.Model):
 	palette = models.CharField(max_length=200, blank=True, null=True, choices=palette_choices())
 	
 	def __str__(self):
-		return 'Line Plot'
+		return 'Line Plot ' + str(self.plot_id)
 	
 class CountPlotModel(models.Model):
-	name = models.CharField(max_length=200, default="Count Plot", primary_key=True)
+	plot_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 	x = models.CharField(max_length=200, null=True, choices=feature_tuples()) #f
 	hue = models.CharField(max_length=200, null=True, blank=True, choices=feature_tuples()) #f
 	saturation = models.FloatField(default=0.75) #0 to 1 1 = dark
@@ -119,7 +120,7 @@ class CountPlotModel(models.Model):
 	dodge = models.CharField(max_length = 200, choices=bool_choices(), default=True)
 	
 	def __str__(self):
-		return 'Count Plot'
+		return 'Count Plot ' + str(self.plot_id)
 
 class HistogramPlotModel(models.Model):
 	stat_choices = (
@@ -139,7 +140,7 @@ class HistogramPlotModel(models.Model):
 		('step', 'step'),
 		('poly', 'poly'),
 		)
-	name = models.CharField(max_length=200, default="Histogram", primary_key=True)
+	plot_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 	x = models.CharField(max_length=200, null=True, choices=feature_tuples()) #f
 	hue = models.CharField(max_length=200, null=True, blank=True, choices=feature_tuples()) #f
 	stat = models.CharField(max_length=200, null=True, choices=stat_choices, default='count')
@@ -155,10 +156,10 @@ class HistogramPlotModel(models.Model):
 	log_scale = models.CharField(max_length=200, default=False, choices=bool_choices())
 	
 	def __str__(self):
-		return 'Histogram Plot'
+		return 'Histogram Plot ' + str(self.plot_id)
 
 class BoxPlotModel(models.Model):
-	name = models.CharField(max_length=200, default="Box Plot", primary_key=True)
+	plot_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 	x = models.CharField(max_length=200, null=True, choices=feature_tuples()) #f
 	y = models.CharField(max_length=200, null=True, choices=feature_tuples()) #f
 	hue = models.CharField(max_length=200, null=True, blank=True, choices=feature_tuples()) #f
@@ -170,4 +171,4 @@ class BoxPlotModel(models.Model):
 	linewidth = models.FloatField(null=True, blank=True)
 	
 	def __str__(self):
-		return 'Box Plot'
+		return 'Box Plot ' + str(self.plot_id)

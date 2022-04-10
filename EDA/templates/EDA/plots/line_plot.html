@@ -16,7 +16,7 @@
 					</div>
 					<div class="card-body">
 						<h3 class="card-title">
-							<img src="{% static 'images/graph.png' %}">
+							<img src="{% static 'images/' %}{{plot_image_name}}">
 						</h3>
 					</div>
 				</div>
@@ -27,11 +27,11 @@
 <h3 style="margin: 30px 0px 15px;">Code : </h3>
 <div class="row" style="background-color: #F8F8FF; margin: 30px 30px 30px 30px; padding: 10px; outline-color: black;
 outline-width: 5px; outline-style: solid; padding-bottom: 30px; padding-top: 30px;">
-	sns.scatterplot(x={{b.x}}, y={{b.y}}, hue={{b.hue}}, style={{b.style}}, size={{b.size}}, 
-	n_boot={{b.boot}}, ci={{b.ci}}, sort={{b.sort}}, 
-	err_style={{b.err_style}}, legend={{b.legend}}, palette={{b.palette}})
+	sns.scatterplot(x={{graph.x}}, y={{graph.y}}, hue={{graph.hue}}, style={{graph.style}}, size={{graph.size}}, 
+	n_boot={{graph.boot}}, ci={{graph.ci}}, sort={{graph.sort}}, 
+	err_style={{graph.err_style}}, legend={{graph.legend}}, palette={{graph.palette}})
 </div>
-<a class="btn btn-warning" style="padding:10px" href="{% url 'delete_plot' %}">
+<a class="btn btn-warning" style="padding:10px" href="{% url 'delete_plot' plot_image_name %}">
 	Return to Plotting Page.
 </a>
 

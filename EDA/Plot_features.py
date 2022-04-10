@@ -12,17 +12,17 @@ class BarPlotParameters:
 	ci=None
 
 	def __init__(self, li):
-		self.name = li[1]
-		self.x=li[2]
-		self.y=li[3]
-		self.hue=li[4]
-		self.saturation=li[5]
-		self.errcolor=li[6]
-		self.errwidth=li[7]
-		self.capsize=li[8]
-		self.n_boot=li[9]
-		self.palette=li[10]
-		self.ci=li[11]
+		self.name = li[0]
+		self.x=li[1]
+		self.y=li[2]
+		self.hue=li[3]
+		self.saturation=li[4]
+		self.errcolor=li[5]
+		self.errwidth=li[6]
+		self.capsize=li[7]
+		self.n_boot=li[8]
+		self.palette=li[9]
+		self.ci=li[10]
 
 class ScatterPlotParameters:
 	name = None
@@ -37,16 +37,16 @@ class ScatterPlotParameters:
 	ci=None
 
 	def __init__(self, li):
-		self.name = li[1]
-		self.x=li[2]
-		self.y=li[3]
-		self.hue=li[4]
-		self.style=li[5]
-		self.size=li[6]
-		self.palette=li[7]
-		self.legend=li[8]
-		self.n_boot=li[9]
-		self.ci=li[10]
+		self.name = li[0]
+		self.x=li[1]
+		self.y=li[2]
+		self.hue=li[3]
+		self.style=li[4]
+		self.size=li[5]
+		self.palette=li[6]
+		self.legend=li[7]
+		self.n_boot=li[8]
+		self.ci=li[9]
 
 class LinePlotParameters:
 	name = None
@@ -63,18 +63,18 @@ class LinePlotParameters:
 	palette = None
 
 	def __init__(self, li):
-		self.name = li[1]
-		self.x = li[2]
-		self.y = li[3]
-		self.hue = li[4]
-		self.style = li[5]
-		self.size = li[6]
-		self.n_boot = li[7]
-		self.ci = li[8]
-		self.sort = li[9]
-		self.err_style = li[10]
-		self.legend = li[11]
-		self.palette = li[12]
+		self.name = li[0]
+		self.x = li[1]
+		self.y = li[2]
+		self.hue = li[3]
+		self.style = li[4]
+		self.size = li[5]
+		self.n_boot = li[6]
+		self.ci = li[7]
+		self.sort = li[8]
+		self.err_style = li[9]
+		self.legend = li[10]
+		self.palette = li[11]
 
 class CountPlotParameters:
 	name = None
@@ -85,12 +85,12 @@ class CountPlotParameters:
 	dodge = None
 
 	def __init__(self, li):
-		self.name = li[1]
-		self.x = li[2]
-		self.hue = li[3]
-		self.saturation = li[4]
-		self.palette = li[5]
-		self.dodge = li[6]
+		self.name = li[0]
+		self.x = li[1]
+		self.hue = li[2]
+		self.saturation = li[3]
+		self.palette = li[4]
+		self.dodge = li[5]
 
 class HistogramPlotParameters:
 	name = None
@@ -109,20 +109,20 @@ class HistogramPlotParameters:
 	log_scale = None
 
 	def __init__(self, li):
-		self.name = li[1]
-		self.x = li[2]
-		self.hue = li[3]
-		self.stat = li[4]
-		self.bins = li[5]
-		self.binwidth = li[6]
-		self.discrete = li[7]
-		self.palette = li[8]
-		self.legend = li[9]
-		self.fill = li[10]
-		self.kde = li[11]
-		self.multiple = li[12]
-		self.element = li[13]
-		self.log_scale = li[14]
+		self.name = li[0]
+		self.x = li[1]
+		self.hue = li[2]
+		self.stat = li[3]
+		self.bins = li[4]
+		self.binwidth = li[5]
+		self.discrete = li[6]
+		self.palette = li[7]
+		self.legend = li[8]
+		self.fill = li[9]
+		self.kde = li[10]
+		self.multiple = li[11]
+		self.element = li[12]
+		self.log_scale = li[13]
 
 class BoxPlotParameters:
 	name = None
@@ -137,13 +137,13 @@ class BoxPlotParameters:
 	linewidth = None
 
 	def __init__(self, li):
-		self.name = li[1]
-		self.x = li[2]
-		self.y = li[3]
-		self.hue = li[4]
-		self.saturation = li[5]
-		self.palette = li[6]
-		self.width = li[7]
-		self.dodge = li[8]
-		self.fliersize = li[9]
-		self.linewidth = li[10]
+		self.name = li[0]
+		self.x = li[1]
+		self.y = li[2]
+		self.hue = li[3]
+		self.saturation = li[4]
+		self.palette = li[5]
+		self.width = li[6]
+		self.dodge = li[7]
+		self.fliersize = li[8]
+		self.linewidth = li[9]
