@@ -10,39 +10,19 @@ def make_graph(a, num, plot_image_name):
 			li.append(a[i])
 
 	if(num == 1):
-		return bar_plot(df, li, plot_image_name)
+		return bar_plot(li, plot_image_name)
 
 	elif(num == 2):
-		return scatter_plot(df, li, plot_image_name)
+		return scatter_plot(li, plot_image_name)
 
 	elif(num == 3):
-		return line_plot(df, li, plot_image_name)
+		return line_plot(li, plot_image_name)
 
 	elif(num == 4):
-		return count_plot(df, li, plot_image_name)
+		return count_plot(li, plot_image_name)
 
 	elif(num == 5):
-		return hist_plot(df, li, plot_image_name)
+		return hist_plot(li, plot_image_name)
 
 	else:
-		return box_plot(df, li, plot_image_name)
-
-def deleteGraph(graph_type):
-	if(graph_type == 'Bar Plot'):
-		graph = BarPlotModel.objects.all()
-		graph.delete()
-	elif(graph_type == 'Scatter Plot'):
-		graph = ScatterPlotModel.objects.all()
-		graph.delete()
-	elif(graph_type == 'Line Plot'):
-		graph = LinePlotModel.objects.all()
-		graph.delete()
-	elif(graph_type == 'Count Plot'):
-		graph = CountPlotModel.objects.all()
-		graph.delete()
-	elif(graph_type == 'Histogram'):
-		graph = HistogramPlotModel.objects.all()
-		graph.delete()
-	else:
-		graph = BoxPlotModel.objects.all()
-		graph.delete()
+		return box_plot(li, plot_image_name)

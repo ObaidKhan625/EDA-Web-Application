@@ -1,5 +1,6 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
+import pandas as pd
 
 def save_graph(plot, plot_image_name):
 	fig = plot.get_figure()
@@ -7,25 +8,28 @@ def save_graph(plot, plot_image_name):
 	fig.savefig(image_path)
 	plt.close('all')
 
-def bar_plot(df, li, plot_image_name):
+def bar_plot(li, plot_image_name):
+	df = pd.read_csv('file.csv')
 	li[4] = max(min(1, float(li[4])), 0)
 	li[6] = max(min(3, float(li[6])), 1)
 	li[7] = max(min(0.4, float(li[7])), 0)
 	li[10] = max(min(99, int(li[10])), 1)
-	plot = sns.barplot(x=str(li[1]), y=str(li[2]), hue=li[3], saturation=li[4], errcolor=li[5], 
+	plot = sns.barplot(x=li[1], y=li[2], hue=li[3], saturation=li[4], errcolor=li[5], 
 		errwidth=li[6], capsize=li[7], n_boot=li[8], palette=li[9], ci=li[10], 
 		data=df)
 	save_graph(plot, plot_image_name)
 	return li
 
-def scatter_plot(df, li, plot_image_name):
+def scatter_plot(li, plot_image_name):
+	df = pd.read_csv('file.csv')
 	li[9] = min(99, max(1, int(li[9])))
 	plot = sns.scatterplot(x=li[1], y=li[2], hue=li[3], style=li[4], size=li[5], 
 		palette=li[6], legend=li[7], n_boot=li[8], ci=li[9], data=df)
 	save_graph(plot, plot_image_name)
 	return li
 
-def line_plot(df, li, plot_image_name):
+def line_plot(li, plot_image_name):
+	df = pd.read_csv('file.csv')
 	li[7] = min(99, max(1, int(li[7])))
 	if(li[8] == 'False'):
 		li[8] = bool(li[8])
@@ -39,8 +43,8 @@ def line_plot(df, li, plot_image_name):
 	save_graph(plot, plot_image_name)
 	return li
 
-def count_plot(df, li, plot_image_name):
-	print(li)
+def count_plot(li, plot_image_name):
+	df = pd.read_csv('file.csv')
 	li[3] = min(1, max(0, float(li[3])))
 	if(li[5]=='True'):
 		li[5] = True
@@ -51,7 +55,8 @@ def count_plot(df, li, plot_image_name):
 	save_graph(plot, plot_image_name)
 	return li
 
-def hist_plot(df, li, plot_image_name):
+def hist_plot(li, plot_image_name):
+	df = pd.read_csv('file.csv')
 	#Discrete should be true if element is not auto
 	if(li[4] != 'auto'):
 		li[4] = int(li[4])
@@ -77,7 +82,8 @@ def hist_plot(df, li, plot_image_name):
 	save_graph(plot, plot_image_name)
 	return li
 
-def box_plot(df, li, plot_image_name):
+def box_plot(li, plot_image_name):
+	df = pd.read_csv('file.csv')
 	if(li[7]=='True'):
 		li[7] = True
 	else:
