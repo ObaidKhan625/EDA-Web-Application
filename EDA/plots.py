@@ -4,7 +4,7 @@ import pandas as pd
 
 def save_graph(plot, plot_image_name):
 	fig = plot.get_figure()
-	image_path = ".\static\images\\" + str(plot_image_name) + ".png"
+	image_path = "static\images\\" + str(plot_image_name) + ".png"
 	fig.savefig(image_path)
 	plt.close('all')
 
